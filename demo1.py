@@ -3,48 +3,50 @@ from matplotlib import cm
 from matplotlib.ticker import LinearLocator
 import cv2
 import numpy as np
-from mpmath import *
+from math import *
 
-lam = 523*pow(10,-9)
-pixel = 2.4*pow(10,-6)
-pixel_freq = 1/pixel
+'''Constants Defined'''
+lam = 523*pow(10,-9)*1000 #1000 for mm scale
+pixel = 1.85*pow(10,-6)*1000*3000 #mm scale
+pixel_freq = 1/pixel #frequency domain:1/mm*1/mm scale,
+#(x,y) on frequency domain: x*pixel_freq times oscilate within 1mm.
 
-img = cv2. imread('./data/1.bmp',cv2.IMREAD_GRAYSCALE)
-img = img[500:2400,500:2400]
-f = np.fft.fft2(img)
-fshift = np.fft.fftshift(f)
-fftd = 20*np.log(np.abs(fshift))
-fftd[949:952,949:952]=0
-ishift = np.fft.ifftshift(fftd)
-argmax_fftd = divmod(np.argmax(ishift), np.shape(ishift)[1])
-sin_xz,sin_yz =  np.multiply(pixel_freq*lam/(2*pi),argmax_fftd)
-print(sin_xz,sin_yz)
-theta_xz = csc(sin_xz)
-theta_yz = csc(sin_yz)
-print(theta_xz,theta_yz)
-'''
-plt.subplot(131),plt.imshow(img,cmap = 'gray')
-plt.title('Input'), plt.xticks([])
-plt.yticks([])
-plt.subplot(132),plt.imshow(fftd, cmap='gray')
-plt.title('Fourier transformed- Shifted')
-plt.xticks([]),plt.yticks([])
-plt.subplot(133),plt.imshow(ishift, cmap='gray')
-plt.title('Fourier transformed')
-plt.xticks([]),plt.yticks([])
-plt.show()
-fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
-X = np.arange(0,5000,1)
-Y = np.arange(0,5000,1)
-X, Y = np.meshgrid(X, Y)
-Z = np.pad(fftd, ((1000,1000),(500,500)), 'constant')
-surf = ax.plot_surface(X,Y,Z, cmap=cm.coolwarm, linewidth=0, antialiased=False)
+'''Function Region'''
+def calc_theta_diff(number, file):
 
-ax.set_zlim(0,400)
-ax.zaxis.set_major_locator(LinearLocator(10))
-ax.zaxis.set_major_formatter('{x:.02f}')
+    '''Proceed 2DFFT, calculate angle, and save their results'''
 
-fig.colorbar(surf,shrink=0.5, aspect=5)
+    im_name = './data/'+str(number)+'.bmp'
+    img = cv2. imread(im_name,cv2.IMREAD_GRAYSCALE)
+    img = img[0:3000,0:3000]
+    f = np.fft.fft2(img)
+    fshift = np.fft.fftshift(f)
+    fftd = 20*np.log(np.abs(fshift))
+    fftd[1497:1504,1497:1504]=0
+    fftd = fftd[1425:1576, 1425:1576]
+    ishift = np.fft.ifftshift(fftd)
+    argmax_fftd = divmod(np.argmax(ishift), np.shape(ishift)[1])
 
-plt.show()
-'''
+    sin_xz,sin_yz =  np.multiply(lam*pixel_freq,argmax_fftd)
+    theta_xz = degrees(np.arcsin(sin_xz))
+    theta_yz = degrees(np.arcsin(sin_yz))
+
+    file.write(str(number)+' - gamma1: '+str(theta_xz)+' gamma2: '+str(theta_yz))
+    file.write('\n')
+
+
+    plt.subplot(121),plt.imshow(img,cmap = 'gray')
+    plt.title('Input'), plt.xticks([])
+    plt.yticks([])
+    plt.subplot(122),plt.imshow(fftd, cmap='gray')
+    plt.title('Fourier transformed- Shifted')
+    plt.xticks([]),plt.yticks([])
+    plt.savefig(str(number)+'.png')
+
+'''Actual Part'''
+file = open("angle.txt","a")
+
+for num in range(1,11):
+    calc_theta_diff(num, file)
+
+file.close()
