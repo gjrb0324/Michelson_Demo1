@@ -1,15 +1,5 @@
 1 - interfered frequency: 4.108740270627525mm^-1, interfered_wavelength: 0.24338360035770057
 2 - interfered frequency: 3.4186785515333833mm^-1, interfered_wavelength: 0.2925106835655751
-3 - interfered frequency: 7.49428264615691mm^-1, interfered_wavelength: 0.13343505272153072
-4 - interfered frequency: 26.503028480283813mm^-1, interfered_wavelength: 0.03773153701072019
-5 - interfered frequency: 9.355499088826791mm^-1, interfered_wavelength: 0.10688900618827414
-6 - interfered frequency: 28.786568123730554mm^-1, interfered_wavelength: 0.03473842368780452
-7 - interfered frequency: 12.08416766638358mm^-1, interfered_wavelength: 0.0827529067460605
-8 - interfered frequency: 8.383704593968897mm^-1, interfered_wavelength: 0.11927901189640962
-9 - interfered frequency: 5.802249437154819mm^-1, interfered_wavelength: 0.17234695109735895
-10 - interfered frequency: 2.9987958517285116mm^-1, interfered_wavelength: 0.33346718130999087
-1 - interfered frequency: 4.108740270627525mm^-1, interfered_wavelength: 0.24338360035770057
-2 - interfered frequency: 3.4186785515333833mm^-1, interfered_wavelength: 0.2925106835655751
 3 - interfered frequency: 7.494282646156909mm^-1, interfered_wavelength: 0.13343505272153072
 4 - interfered frequency: 26.503028480283813mm^-1, interfered_wavelength: 0.03773153701072019
 5 - interfered frequency: 9.35549908882679mm^-1, interfered_wavelength: 0.10688900618827417

@@ -47,8 +47,8 @@ def calc_theta_diff(number, file_a, file_f):
     plt.xticks([]),plt.yticks([])
 
 '''Actual Part'''
-file_angle = open("angle.txt","a")
-file_freq = open("freq_and_wavelength.txt","a")
+file_angle = open("angle.txt","w")
+file_freq = open("freq_and_wavelength.txt","w")
 for num in range(1,11):
     calc_theta_diff(num, file_angle,file_freq)
 
