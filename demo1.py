@@ -6,7 +6,7 @@ import numpy as np
 from math import *
 
 '''Constants Defined'''
-lam = 523*pow(10,-9)*1000 #1000 for mm scale
+lam = 532*pow(10,-9)*1000 #1000 for mm scale
 pixel = 1.85*pow(10,-6)*1000*3000 #mm scale
 pixel_freq = 1/pixel #frequency domain:1/mm*1/mm scale,
 #(x,y) on frequency domain: x*pixel_freq times oscilate within 1mm.
