@@ -12,7 +12,7 @@ pixel_freq = 1/pixel #frequency domain:1/mm*1/mm scale,
 #(x,y) on frequency domain: x*pixel_freq times oscilate within 1mm.
 
 '''Function Region'''
-def calc_theta_diff(number, file):
+def calc_theta_diff(number, file_a, file_f):
 
     '''Proceed 2DFFT, calculate angle, and save their results'''
 
@@ -30,10 +30,14 @@ def calc_theta_diff(number, file):
     sin_xz,sin_yz =  np.multiply(lam*pixel_freq,argmax_fftd)
     theta_xz = degrees(np.arcsin(sin_xz))
     theta_yz = degrees(np.arcsin(sin_yz))
+    inter_freq = sqrt(sin_xz*sin_xz + sin_yz*sin_yz)/lam
+    d_lambda = 1/inter_freq
 
-    file.write(str(number)+' - gamma1: '+str(theta_xz)+' gamma2: '+str(theta_yz))
-    file.write('\n')
-
+    file_a.write(str(number)+' - gamma1: '+str(theta_xz)+' gamma2: '+str(theta_yz))
+    file_f.write(str(number)+' - interfered frequency: '+str(inter_freq) \
+               + 'mm^-1, interfered_wavelength: '+str(d_lambda))
+    file_a.write('\n')
+    file_f.write('\n')
 
     plt.subplot(121),plt.imshow(img,cmap = 'gray')
     plt.title('Input'), plt.xticks([])
@@ -41,12 +45,12 @@ def calc_theta_diff(number, file):
     plt.subplot(122),plt.imshow(fftd, cmap='gray')
     plt.title('Fourier transformed- Shifted')
     plt.xticks([]),plt.yticks([])
-    plt.savefig(str(number)+'.png')
 
 '''Actual Part'''
-file = open("angle.txt","a")
-
+file_angle = open("angle.txt","a")
+file_freq = open("freq_and_wavelength.txt","a")
 for num in range(1,11):
-    calc_theta_diff(num, file)
+    calc_theta_diff(num, file_angle,file_freq)
 
-file.close()
+file_angle.close()
+file_freq.close()
